@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-connectivity
+  labels:
+    app: test-connectivity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-connectivity
+  template:
+    metadata:
+      labels:
+        app: test-connectivity
+    spec:
+      containers:
+        - name: ping-container
+          image: alpine:latest # Lightweight image with ping available
+          command: ["/bin/sh", "-c"]
+          args:
+            - while true; do
+                echo "Pinging google.com...";
+                ping -c 5 google.com;
+                echo "Sleeping for 30 seconds...";
+                sleep 30;
+              done;

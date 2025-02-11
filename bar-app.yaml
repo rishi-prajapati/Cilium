@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"http-echo"},"name":"bar-app","namespace":"default"},"spec":{"containers":[{"command":["/agnhost","serve-hostname","--http=true","--port=8080"],"image":"registry.k8s.io/e2e-test-images/agnhost:2.39","name":"bar-app"}]}}
+  creationTimestamp: "2025-02-11T09:53:06Z"
+  labels:
+    app: http-echo
+  name: bar-app
+  namespace: default
+  resourceVersion: "12489"
+  uid: d1a866e5-d0f3-4350-b788-64d5e77dcac0
+spec:
+  containers:
+  - command:
+    - /agnhost
+    - serve-hostname
+    - --http=true
+    - --port=8080
+    image: registry.k8s.io/e2e-test-images/agnhost:2.39
+    imagePullPolicy: IfNotPresent
+    name: bar-app
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-frplg
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: workspace-worker
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-frplg
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-11T09:54:02Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-11T09:53:06Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-11T09:54:02Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-11T09:54:02Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-11T09:53:06Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://6c0fd9c538da3337512f1843b63aa0e497195416083ec98a7a8906bbcde454e0
+    image: registry.k8s.io/e2e-test-images/agnhost:2.39
+    imageID: registry.k8s.io/e2e-test-images/agnhost@sha256:7e8bdd271312fd25fc5ff5a8f04727be84044eb3d7d8d03611972a6752e2e11e
+    lastState: {}
+    name: bar-app
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-02-11T09:54:01Z"
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-frplg
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.4
+  hostIPs:
+  - ip: 172.18.0.4
+  phase: Running
+  podIP: 10.0.2.252
+  podIPs:
+  - ip: 10.0.2.252
+  qosClass: BestEffort
+  startTime: "2025-02-11T09:53:06Z"
